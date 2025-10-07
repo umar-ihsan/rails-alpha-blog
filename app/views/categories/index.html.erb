@@ -1,0 +1,55 @@
+<div class="d-flex justify-content-between align-items-center mb-4">
+  <h1 class="h2">Categories</h1>
+  <% if logged_in? && current_user.admin? %>
+    <%= link_to 'New Category', new_category_path, class: "btn btn-primary" %>
+  <% end %>
+</div>
+
+<% if @categories.any? %>
+  <div class="row">
+    <% @categories.each do |category| %>
+      <div class="col-md-4 mb-3">
+        <div class="card h-100">
+          <div class="card-body">
+            <h5 class="card-title">
+              <%= link_to category.name.capitalize, category_path(category), 
+                  class: "text-decoration-none" %>
+            </h5>
+            <p class="card-text text-muted">
+              <%= pluralize(category.articles.count, 'article') %>
+            </p>
+          </div>
+          <% if logged_in? && current_user.admin? %>
+            <div class="card-footer bg-transparent">
+              <div class="btn-group btn-group-sm w-100">
+                <%= link_to 'View', category_path(category), 
+                    class: "btn btn-outline-primary" %>
+                <%= link_to 'Edit', edit_category_path(category), 
+                    class: "btn btn-outline-secondary" %>
+                <%= button_to 'Delete', category_path(category), method: :delete,
+                    class: "btn btn-outline-danger",
+                    confirm: "Are you sure? This will remove the category from all articles.",
+                    form: { style: "display: inline-block;" } %>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+
+  <div class="d-flex justify-content-center mt-4">
+    <%= will_paginate @categories, class: "pagination justify-content-center" %>
+  </div>
+<% else %>
+  <div class="text-center py-5">
+    <i class="bi bi-tags display-1 text-muted"></i>
+    <h4 class="text-muted">No categories yet</h4>
+    <% if logged_in? && current_user.admin? %>
+      <p class="text-muted">Create the first category to organize articles!</p>
+      <%= link_to 'Create Category', new_category_path, class: "btn btn-primary" %>
+    <% else %>
+      <p class="text-muted">Categories will appear here once created by admins.</p>
+    <% end %>
+  </div>
+<% end %>

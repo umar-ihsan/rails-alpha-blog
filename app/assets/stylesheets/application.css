@@ -145,3 +145,56 @@ body {
     font-size: 2rem;
   }
 }
+
+/* Category management styling */
+.category-card {
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.category-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Multi-select styling improvements */
+.form-select[multiple] {
+  background-image: none;
+  padding: 0.5rem;
+}
+
+.form-select[multiple] option {
+  padding: 8px 12px;
+  margin: 2px 0;
+  border-radius: 4px;
+}
+
+.form-select[multiple] option:hover {
+  background-color: #e9ecef;
+}
+
+.form-select[multiple] option:checked {
+  background-color: #007bff;
+  color: white;
+}
+
+/* List group improvements */
+.list-group-item {
+  border-left: 4px solid transparent;
+  transition: border-left-color 0.2s;
+}
+
+.list-group-item:hover {
+  border-left-color: #007bff;
+  background-color: rgba(0, 123, 255, 0.05);
+}
+
+/* Admin badge styling */
+.badge.bg-warning {
+  color: #212529 !important;
+}
+
+/* Category info card */
+.card-header {
+  background-color: rgba(0, 123, 255, 0.1);
+  border-bottom: 2px solid #007bff;
+}

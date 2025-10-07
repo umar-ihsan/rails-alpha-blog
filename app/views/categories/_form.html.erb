@@ -1,0 +1,26 @@
+<%= form_with model: @category, local: true, class: "row g-3" do |form| %>
+  <% if @category.errors.any? %>
+    <div class="col-12">
+      <div class="alert alert-danger">
+        <h6>Please fix the following errors:</h6>
+        <ul class="mb-0">
+          <% @category.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+          <% end %>
+        </ul>
+      </div>
+    </div>
+  <% end %>
+
+  <div class="col-12">
+    <%= form.label :name, class: "form-label" %>
+    <%= form.text_field :name, class: "form-control", 
+        placeholder: "Enter category name (3-25 characters)" %>
+    <div class="form-text">Category names should be unique and descriptive.</div>
+  </div>
+
+  <div class="col-12">
+    <%= form.submit class: "btn btn-primary", value: (@category.new_record? ? "Create Category" : "Update Category") %>
+    <%= link_to 'Cancel', categories_path, class: "btn btn-secondary ms-2" %>
+  </div>
+<% end %>

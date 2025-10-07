@@ -15,9 +15,13 @@
     <%= form.text_area :content, class: "form-control", rows: 5 %>
   </div>
 
-  <div class="col-md-6">
-    <%= form.label :genre, class: "form-label" %>
-    <%= form.text_field :genre, class: "form-control" %>
+  <div class="col-12">
+    <%= form.label :category_ids, "Categories (Optional)", class: "form-label" %>
+    <%= form.collection_select(:category_ids, Category.all, :id, :name,
+        { prompt: "Select categories (optional)" }, 
+        { multiple: true, class: "form-select", size: 4, 
+          style: "min-height: 120px;" }) %>
+    <div class="form-text">Hold Ctrl (Windows) or Cmd (Mac) to select multiple categories. Categories are optional.</div>
   </div>
 
   <div class="col-12">

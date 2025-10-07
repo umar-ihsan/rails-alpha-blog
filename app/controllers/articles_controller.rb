@@ -20,18 +20,22 @@ class ArticlesController < ApplicationController
     @article = Article.new(article_params)
     @article.user = current_user
     
-    @article.save
-    if @article.errors.any?
-      flash[:error] = @article.errors.full_messages.join(", ")
-      render :new
-      return
-    end
-    flash[:success] = "Article created successfully!"
-    puts "Article created successfully!"
-    puts "Article details:"
-    puts @article.inspect
-    redirect_to article_path(@article)
+    # Debug output
+    puts "=== DEBUG ==="
+    puts "Original params: #{params[:article][:category_ids].inspect}"
+    puts "Filtered params: #{article_params[:category_ids].inspect}"
+    puts "Article categories: #{@article.categories.inspect}"
+    puts "Article valid?: #{@article.valid?}"
+    puts "Article errors: #{@article.errors.full_messages}"
+    puts "============="
     
+    if @article.save
+      flash[:success] = "Article created successfully!"
+      redirect_to article_path(@article)
+    else
+      flash[:error] = @article.errors.full_messages.join(", ")
+      render :new, status: :unprocessable_entity
+    end
   end
 
   def edit
@@ -71,7 +75,10 @@ class ArticlesController < ApplicationController
   end
 
   def article_params
-    params.require(:article).permit(:title, :content, :author, :genre)
+    params.require(:article).permit(:title, :content, :category_ids => []).tap do |permitted|
+      # Remove empty strings from category_ids array
+      permitted[:category_ids] = permitted[:category_ids].reject(&:blank?) if permitted[:category_ids]
+    end
   end
 
   def require_same_user
